@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/Student.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -8,6 +9,8 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
+  final formKey = GlobalKey<FormState>();
+  Student myStudent = Student();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,22 +23,25 @@ class _FormScreenState extends State<FormScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             child: Form(
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('ชื่อ',style: TextStyle(fontSize: 20)),
-                  TextFormField(),
-                  SizedBox(height: 16),  
-                  Text('นามสกุล',style: TextStyle(fontSize: 20)),
+                  Text('ชื่อ', style: TextStyle(fontSize: 20)),
+                  TextFormField(onSaved: (String? fname) {
+                    myStuden.fname = fname;
+                  }),
+                  SizedBox(height: 16),
+                  Text('นามสกุล', style: TextStyle(fontSize: 20)),
                   TextFormField(),
                   SizedBox(height: 16),
-                  Text('ห้อง',style: TextStyle(fontSize: 20)),
+                  Text('ห้อง', style: TextStyle(fontSize: 20)),
                   TextFormField(),
                   SizedBox(height: 16),
-                  Text('อีเมล',style: TextStyle(fontSize: 20)),
+                  Text('อีเมล', style: TextStyle(fontSize: 20)),
                   TextFormField(),
                   SizedBox(height: 16),
-                  Text('คะแนนสอบ',style: TextStyle(fontSize: 20)),
+                  Text('คะแนนสอบ', style: TextStyle(fontSize: 20)),
                   TextFormField(),
                   SizedBox(
                     height: 50,
@@ -45,7 +51,8 @@ class _FormScreenState extends State<FormScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text('บันทึกคะแนน', style: TextStyle(fontSize: 20)),
+                      child:
+                          Text('บันทึกคะแนน', style: TextStyle(fontSize: 20)),
                     ),
                   ),
                   SizedBox(height: 16),
