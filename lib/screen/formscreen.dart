@@ -33,16 +33,24 @@ class _FormScreenState extends State<FormScreen> {
                   }),
                   SizedBox(height: 16),
                   Text('นามสกุล', style: TextStyle(fontSize: 20)),
-                  TextFormField(),
+                    TextFormField(onSaved: (String? lname) {
+                    myStuden.lname = lname;
+                  }),
                   SizedBox(height: 16),
                   Text('ห้อง', style: TextStyle(fontSize: 20)),
-                  TextFormField(),
+                  TextFormField(onSaved: (String? room) {
+                    myStuden.room = room;
+                  }),
                   SizedBox(height: 16),
                   Text('อีเมล', style: TextStyle(fontSize: 20)),
-                  TextFormField(),
+                  TextFormField(onSaved: (String? email) {
+                    myStuden.email = email;
+                  }),
                   SizedBox(height: 16),
                   Text('คะแนนสอบ', style: TextStyle(fontSize: 20)),
-                  TextFormField(),
+                  TextFormField(onSaved: (String? score) {
+                    myStuden.score = score;
+                  }),
                   SizedBox(
                     height: 50,
                   ),
