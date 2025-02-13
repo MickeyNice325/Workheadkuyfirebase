@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         body: TabBarView(
-          children: [FormScreen(),DisplayDataScreen()]),
+          children: [FormScreen(),DisplayScreen()]),
           backgroundColor: Color.fromARGB(255, 42, 7, 88),
           bottomNavigationBar: TabBar(tabs: [
             Tab(
