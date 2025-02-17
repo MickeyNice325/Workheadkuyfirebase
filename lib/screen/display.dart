@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screen/formscreen.dart';
 
 class DisplayScreen extends StatefulWidget {
   const DisplayScreen({super.key});
@@ -28,14 +29,24 @@ class _DisplayScreenState extends State<DisplayScreen> {
                   return Container(
                     child: Card(
                       child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 30,
-                          child: FittedBox(child: Text(document['score'])),
-                        ),
-                        title:
-                            Text(document['fname'] + " " + document['lname']),
-                        subtitle: Text(document['email']),
-                      ),
+                          leading: CircleAvatar(
+                            radius: 30,
+                            child: FittedBox(child: Text(document['score'])),
+                          ),
+                          title:
+                              Text(document['fname'] + " " + document['lname']),
+                          subtitle: Text(document['email']),
+                          trailing: Icon(Icons.delete_rounded),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FormScreen(),
+                                  settings: RouteSettings(arguments: document
+                                  ),
+                                ));
+                          },
+                          ),
                     ),
                   );
                 }).toList(),

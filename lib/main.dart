@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/homepage.dart';
+// import 'package:flutter_application_1/homepage.dart';
+import 'package:flutter_application_1/screen/login.dart';
+// import 'package:flutter_application_1/screen/register2.dart';
 
 void main() async {
   await Firebase.initializeApp(
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         backgroundColor: Color.fromARGB(255, 42, 7, 88),
       )),
-      home: HomePage(),
+      home: LoginScreen(),
     );
   }
 }

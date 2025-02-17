@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/Student.dart';
+// import 'package:flutter_application_1/screen/display.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 class FormScreen extends StatefulWidget {
@@ -16,9 +17,15 @@ class _FormScreenState extends State<FormScreen> {
   Student myStudent = Student();
   //เตรียม firebase
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  CollectionReference _studentCollection = FirebaseFirestore.instance.collection('student');
+  CollectionReference _studentCollection =
+      FirebaseFirestore.instance.collection('student');
   @override
   Widget build(BuildContext context) {
+    var queryDocumentSnapshort = null;
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      queryDocumentSnapshort =
+          ModalRoute.of(context)!.settings.arguments as QueryDocumentSnapshot;
+    }
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -31,7 +38,14 @@ class _FormScreenState extends State<FormScreen> {
           }
           //ถ้าเข้าได้
           if (snapshot.connectionState == ConnectionState.done) {
-return Scaffold(
+            if (queryDocumentSnapshort != null) {
+              myStudent.fname = queryDocumentSnapshort["fname"];
+              myStudent.lname = queryDocumentSnapshort["lname"];
+              myStudent.room = queryDocumentSnapshort["room"];
+              myStudent.email = queryDocumentSnapshort["email"];
+              myStudent.score = queryDocumentSnapshort["score"];
+            }
+            return Scaffold(
               appBar: AppBar(
                 title: Text("แบบฟอร์มบันทึกคะแนนสอบ"),
                 centerTitle: true,
@@ -50,6 +64,7 @@ return Scaffold(
                               style: TextStyle(fontSize: 20),
                             ),
                             TextFormField(
+                              initialValue: myStudent.fname,
                               validator:
                                   RequiredValidator(errorText: "กรุณกรอกชื่อ"),
                               onSaved: (String? fname) {
@@ -65,6 +80,7 @@ return Scaffold(
                               style: TextStyle(fontSize: 20),
                             ),
                             TextFormField(
+                              initialValue: myStudent.lname,
                               validator: RequiredValidator(
                                   errorText: "กรุณกรอกนามสกุล"),
                               onSaved: (String? lname) {
@@ -80,6 +96,7 @@ return Scaffold(
                               style: TextStyle(fontSize: 20),
                             ),
                             TextFormField(
+                              initialValue: myStudent.room,
                               validator:
                                   RequiredValidator(errorText: "กรุณกรอกห้อง"),
                               onSaved: (String? room) {
@@ -95,6 +112,7 @@ return Scaffold(
                               style: TextStyle(fontSize: 20),
                             ),
                             TextFormField(
+                              initialValue: myStudent.email,
                               validator: MultiValidator([
                                 EmailValidator(
                                     errorText: "รูปแบบอีเมลไม่ถูกต้อง"),
@@ -113,6 +131,7 @@ return Scaffold(
                               style: TextStyle(fontSize: 20),
                             ),
                             TextFormField(
+                              initialValue: myStudent.score,
                               validator: RequiredValidator(
                                   errorText: "กรุณกรอกคะแนนสอบ"),
                               onSaved: (String? score) {
@@ -130,14 +149,25 @@ return Scaffold(
                                 onPressed: () async {
                                   if (formKey.currentState!.validate()) {
                                     formKey.currentState?.save();
-                                    await _studentCollection.add({
-                                      "fname": myStudent.fname,
-                                      "lname": myStudent.lname,
-                                      "room": myStudent.room,
-                                      "email": myStudent.email,
-                                      "score": myStudent.score,
-                                    });
-                                    formKey.currentState!.reset();
+                                    if (queryDocumentSnapshort != null) {
+                                      queryDocumentSnapshort.reference.update({
+                                        "fname": myStudent.fname,
+                                        "lname": myStudent.lname,
+                                        "room": myStudent.room,
+                                        "email": myStudent.email,
+                                        "score": myStudent.score,
+                                      });
+                                      Navigator.pop(context);
+                                    } else {
+                                      await _studentCollection.add({
+                                        "fname": myStudent.fname,
+                                        "lname": myStudent.lname,
+                                        "room": myStudent.room,
+                                        "email": myStudent.email,
+                                        "score": myStudent.score,
+                                      });
+                                      formKey.currentState!.reset();
+                                    }
                                   }
                                 },
                                 child: Text(
